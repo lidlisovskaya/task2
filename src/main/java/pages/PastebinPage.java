@@ -26,6 +26,15 @@ public class PastebinPage extends BasePage {
     @FindBy(xpath = "//ul/li[text()[contains(.,'Bash')]]")
     private WebElement syntaxPushing;
 
+    @FindBy(xpath = "//div[@class = 'info-top']/h1")
+    private WebElement ResultTextName;
+
+    @FindBy(xpath = "//ol[@class='bash']")
+    private WebElement ResultTextFieldContext;
+
+    @FindBy(xpath = "//a[text() = 'Bash']")
+    private WebElement ResultTextHighlight;
+
     public PastebinPage(WebDriver driver) {
 
         super(driver);
@@ -42,12 +51,12 @@ public class PastebinPage extends BasePage {
 
     public void writeTextInToNewPasteField(String textForNewPaste) {
 
-        pasteField.sendKeys(textForNewPaste);
+        waitForElementLocated(pasteField).sendKeys(textForNewPaste);
     }
 
     public void selectPasteExpiration() {
         pasteExpirationPushing.click();
-        pasteExpirationSelection.click();
+        waitForElementLocated(pasteExpirationSelection).click();
     }
 
     public void writeTextInToPasteNameField(String textForPasteName) {
@@ -63,12 +72,19 @@ public class PastebinPage extends BasePage {
         syntaxPushing.click();
     }
 
-    /*public void resultPage(String textForNewPaste, String textForPasteName) {
-        pastebinPage.writeTextInToNewPasteField(textForNewPaste);
-        pastebinPage.selectSyntaxHighlighting();
-        pastebinPage.selectPasteExpiration();
-        pastebinPage.writeTextInToPasteNameField(textForPasteName);
-        pastebinPage.pressCreateNewPasteButton();
-    }*/
+    public String getResultTextName() {
+        String resultTextName = waitForElementLocated(ResultTextName).getText();
+        return resultTextName;
+    }
+
+    public String getResultText() {
+        String text = waitForElementLocated(ResultTextFieldContext).getText();
+        return text;
+    }
+
+    public String getResultTextHighlight() {
+        String highlight = waitForElementLocated(ResultTextHighlight).getText();
+        return highlight;
+    }
 }
 
